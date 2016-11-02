@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="MrbValueType.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="MrbArrayValue.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="MrbFalseValue.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="MrbFixnumValue.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="MrbFloatValue.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="MrbNilValue.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="MrbState.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="MrbStringValue.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="MrbTrueValue.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="MrbValue.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="nmrb.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="MrbSymbolValue.h">
+      <Filter>header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="header">
+      <UniqueIdentifier>{9a9196e7-edfe-402b-9bf6-c6cef3ccff22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{874cba52-1401-4011-85db-5db9158483f8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MrbState.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="MrbValue.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="nmrb.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

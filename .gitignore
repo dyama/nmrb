@@ -29,3 +29,14 @@
 *.app
 *.suo
 *.user
+*.db
+*.sdf
+/Release
+/Debug
+/.vs
+/nmrb_test/obj
+/nmrb_test/bin
+/nmrb/app.rc
+/nmrb/Debug
+/nmrb/Release
+/nmrb/app.ico
