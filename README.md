@@ -5,6 +5,7 @@ About mruby: https://github.com/mruby/mruby/blob/master/README.md
 
 ## Examples
 
+    // Make MrbState object.
     using (var mrb = new MrbState()) {
     
        // Ruby script
@@ -34,7 +35,8 @@ About mruby: https://github.com/mruby/mruby/blob/master/README.md
          }
          return new MrbNilValue();
        });
-       mrb.Do("clifunc ''");
+       mrb.Do("clifunc 'こんにちは、世界。'");
+       
     }
 
 ## Target platform
