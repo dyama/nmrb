@@ -29,11 +29,11 @@ About mruby: https://github.com/mruby/mruby/blob/master/README.md
            string message = args.First().ToString();
            var button = MessageBox.Show(message, "mruby", MessageBoxButtons.OKCancel);
            if (button == DialogResult.OK) {
-             return new MrbTrueValue();
+             return new MrbTrueValue(mrb);
            }
-           return new MrbFalseValue();
+           return new MrbFalseValue(mrb);
          }
-         return new MrbNilValue();
+         return new MrbNilValue(mrb);
        });
        mrb.Do("clifunc 'こんにちは、世界。'");
        
