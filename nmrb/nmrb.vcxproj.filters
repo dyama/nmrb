@@ -1,43 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="MrbValueType.h">
-      <Filter>header</Filter>
-    </ClInclude>
-    <ClInclude Include="MrbArrayValue.h">
-      <Filter>header</Filter>
-    </ClInclude>
-    <ClInclude Include="MrbFalseValue.h">
-      <Filter>header</Filter>
-    </ClInclude>
-    <ClInclude Include="MrbFixnumValue.h">
-      <Filter>header</Filter>
-    </ClInclude>
-    <ClInclude Include="MrbFloatValue.h">
-      <Filter>header</Filter>
-    </ClInclude>
-    <ClInclude Include="MrbNilValue.h">
-      <Filter>header</Filter>
-    </ClInclude>
-    <ClInclude Include="MrbState.h">
-      <Filter>header</Filter>
-    </ClInclude>
-    <ClInclude Include="MrbStringValue.h">
-      <Filter>header</Filter>
-    </ClInclude>
-    <ClInclude Include="MrbTrueValue.h">
-      <Filter>header</Filter>
-    </ClInclude>
-    <ClInclude Include="MrbValue.h">
-      <Filter>header</Filter>
-    </ClInclude>
     <ClInclude Include="nmrb.h">
       <Filter>header</Filter>
     </ClInclude>
-    <ClInclude Include="common.h">
+    <ClInclude Include="Value.h">
       <Filter>header</Filter>
     </ClInclude>
-    <ClInclude Include="MrbSymbolValue.h">
+    <ClInclude Include="State.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrayValue.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="FalseValue.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="FixnumValue.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="FloatValue.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="NilValue.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="StringValue.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="SymbolValue.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="TrueValue.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueType.h">
       <Filter>header</Filter>
     </ClInclude>
   </ItemGroup>
@@ -50,13 +47,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MrbState.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="MrbValue.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
     <ClCompile Include="nmrb.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Value.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

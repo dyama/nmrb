@@ -24,6 +24,6 @@ namespace nmrb {
   char* clistr_to_utf8(String^ str);
 }
 
-#include "MrbValueType.h"
-#include "MrbValue.h"
-#include "MrbState.h"
+#include "ValueType.h"
+#include "Value.h"
+#include "State.h"

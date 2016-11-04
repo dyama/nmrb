@@ -1,15 +1,15 @@
 #pragma once
 
-#include "MrbValue.h"
-#include "MrbState.h"
+#include "Value.h"
+#include "State.h"
 
 namespace nmrb {
 
-  public ref class MrbFixnumValue : MrbValue
+  public ref class FixnumValue : Value
   {
   public:
-    MrbFixnumValue(Int32 val)
-      : MrbValue(mrb_fixnum_value(val))
+    FixnumValue(Int32 val)
+      : Value(mrb_fixnum_value(val))
     {
       ;
     }

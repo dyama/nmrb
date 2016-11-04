@@ -1,10 +1,10 @@
-#include "MrbState.h"
+#include "State.h"
 
 namespace nmrb {
 
   extern "C" mrb_value _cli(mrb_state* mrb, mrb_value self);
 
-  MrbState::MrbState()
+  State::State()
   {
     LastErrorMessage = String::Empty;
     HasError = false;
@@ -16,19 +16,19 @@ namespace nmrb {
     ai = mrb_gc_arena_save(mrb);
   }
 
-  MrbState::MrbState(mrb_state* src)
+  State::State(mrb_state* src)
   {
     LastErrorMessage = String::Empty;
     HasError = false;
     mrb = src;
   }
 
-  MrbState::~MrbState()
+  State::~State()
   {
-    this->!MrbState();
+    this->!State();
   }
 
-  MrbState::!MrbState()
+  State::!State()
   {
     if (parser) {
       delete parser;
@@ -41,7 +41,7 @@ namespace nmrb {
     }
   }
 
-  MrbValue^ MrbState::Do(String^ script)
+  Value^ State::Do(String^ script)
   {
     mrb_value result = mrb_nil_value();
     char* utf8 = nmrb::clistr_to_utf8(script);
@@ -94,12 +94,12 @@ namespace nmrb {
       mrb_parser_free(parser);
       cxt->lineno++;
     }
-    return MrbValue::ToMrbValue(ptr, result);
+    return Value::ToMrbValue(ptr, result);
   }
 
-  MrbValue^ MrbState::DoFile(String^ path)
+  Value^ State::DoFile(String^ path)
   {
-    MrbValue^ res = gcnew MrbValue(mrb_nil_value());
+    Value^ res = gcnew Value(mrb_nil_value());
     for each (String^ line in IO::File::ReadLines(path))
     {
       Do(line);
@@ -110,14 +110,14 @@ namespace nmrb {
     return res;
   }
 
-  void MrbState::DefineCliMethod(String^ name, MrbFuncType^ a)
+  void State::DefineCliMethod(String^ name, FuncType^ a)
   {
     char* utf8 = clistr_to_utf8(name);
     if (utf8) {
       RObject* pobj = mrb_obj_ptr(mrb_obj_value(mrb->kernel_module));
       mrb_define_method(mrb, mrb->kernel_module, utf8, _cli, MRB_ARGS_NONE());
       if (!CliMethods) {
-        CliMethods = gcnew Dictionary<String^, MrbFuncType^>();
+        CliMethods = gcnew Dictionary<String^, FuncType^>();
       }
       if (CliMethods->ContainsKey(name)) {
         CliMethods->Remove(name);
@@ -127,7 +127,7 @@ namespace nmrb {
     }
   }
 
-  MrbValue^ MrbState::FunCall(String^ func, ... array<MrbValue^>^ args)
+  Value^ State::FunCall(String^ func, ... array<Value^>^ args)
   {
     mrb_value* aa;
     aa = (mrb_value*)malloc(sizeof(mrb_value) * args->Length);
@@ -143,7 +143,7 @@ namespace nmrb {
     //   mrb_free(mrb, aa+i);
     // }
     free(aa);
-    return MrbValue::ToMrbValue(mrb, res);
+    return Value::ToMrbValue(mrb, res);
   }
 
 }

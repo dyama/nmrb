@@ -10,7 +10,7 @@ namespace nmrb_test
   {
     static void Main()
     {
-      using (var mrb = new MrbState()) {
+      using (var mrb = new State()) {
 
         mrb.Do("c=123");
 
@@ -44,7 +44,7 @@ namespace nmrb_test
         // Define C# function to ruby env
         mrb.DefineCliMethod("csfunc", (args)=> {
           if (args.Length > 0 && args[0].IsFixnum()) {
-            int n = (args[0] as MrbFixnumValue).ToInteger();
+            int n = (args[0] as FixnumValue).ToInteger();
             for (int i = 0; i < n; i++) {
               WriteLine("callback");
             }
@@ -53,7 +53,7 @@ namespace nmrb_test
             WriteLine("callback");
           }
           MessageBox.Show("hello!");
-          return new MrbStringValue(mrb, "This is C#.");
+          return new StringValue(mrb, "This is C#.");
         });
 
         // Call C# function from ruby
@@ -65,7 +65,7 @@ namespace nmrb_test
           x * x
         end
         ");
-        dynamic res = mrb.FunCall("twice", new MrbFixnumValue(5));
+        dynamic res = mrb.FunCall("twice", new FixnumValue(5));
         var ans = res.ToInteger();
 
         WriteLine($"ans: {ans}");

@@ -2,7 +2,7 @@
 
 namespace nmrb {
 
-  public enum class MrbValueType
+  public enum class ValueType
   {
     FALSEVAL = 0,/*   0 */
     FREE,        /*   1 */

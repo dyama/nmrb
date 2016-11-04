@@ -1,31 +1,31 @@
 #pragma once
 #pragma once
 
-#include "MrbValue.h"
-#include "MrbState.h"
+#include "Value.h"
+#include "State.h"
 
 namespace nmrb {
 
-  public ref class MrbSymbolValue : MrbValue
+  public ref class SymbolValue : Value
   {
   protected:
     char* s = nullptr;
   public:
-    MrbSymbolValue(MrbState^ cli_mrb, String^ symname)
-      : MrbValue()
+    SymbolValue(State^ cli_mrb, String^ symname)
+      : Value()
     {
       s = clistr_to_utf8(symname);
       *value = mrb_symbol_value(mrb_intern_cstr(cli_mrb->ptr, s));
     }
-    ~MrbSymbolValue() { this->!MrbSymbolValue(); }
-    !MrbSymbolValue() { if (s) mrb_utf8_free(s); };
+    ~SymbolValue() { this->!SymbolValue(); }
+    !SymbolValue() { if (s) mrb_utf8_free(s); };
   internal:
-    MrbSymbolValue(mrb_state* mrb, const char* symname)
-      : MrbValue(mrb_symbol_value(mrb_intern_cstr(mrb, symname)))
+    SymbolValue(mrb_state* mrb, const char* symname)
+      : Value(mrb_symbol_value(mrb_intern_cstr(mrb, symname)))
     {
       ;
     }
-    MrbSymbolValue(mrb_value sym) : MrbValue(sym)
+    SymbolValue(mrb_value sym) : Value(sym)
     {
       ;
     }

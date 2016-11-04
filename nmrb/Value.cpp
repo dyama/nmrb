@@ -1,86 +1,86 @@
-#include "MrbValue.h"
-#include "MrbNilValue.h"
-#include "MrbSymbolValue.h"
-#include "MrbTrueValue.h"
-#include "MrbFalseValue.h"
-#include "MrbFixnumValue.h"
-#include "MrbFloatValue.h"
-#include "MrbStringValue.h"
-#include "MrbArrayValue.h"
+#include "Value.h"
+#include "NilValue.h"
+#include "SymbolValue.h"
+#include "TrueValue.h"
+#include "FalseValue.h"
+#include "FixnumValue.h"
+#include "FloatValue.h"
+#include "StringValue.h"
+#include "ArrayValue.h"
 
 namespace nmrb {
 
-  MrbValue::MrbValue()
+  Value::Value()
   {
     this->value = new mrb_value;
     *this->value = mrb_nil_value();
   }
 
-  MrbValue::MrbValue(mrb_value src)
+  Value::Value(mrb_value src)
   {
     this->value = new mrb_value;
     *this->value = src;
   }
 
-  MrbValue::MrbValue(MrbValue^ src)
+  Value::Value(Value^ src)
   {
     this->value = new mrb_value;
     *this->value = *(src->ptr);
   }
 
-  MrbValue::~MrbValue()
+  Value::~Value()
   {
-    this->!MrbValue();
+    this->!Value();
   }
 
-  MrbValue::!MrbValue()
+  Value::!Value()
   {
     if (this->value) {
       delete this->value;
     }
   }
 
-  Boolean MrbValue::IsNill()
+  Boolean Value::IsNill()
   {
     return mrb_nil_p(*value);
   }
 
-  Boolean MrbValue::IsSymbol()
+  Boolean Value::IsSymbol()
   {
     return mrb_symbol_p(*value);
   }
 
-  Boolean MrbValue::IsFixnum()
+  Boolean Value::IsFixnum()
   {
     return mrb_fixnum_p(*value);
   }
 
-  Boolean MrbValue::IsFloat()
+  Boolean Value::IsFloat()
   {
     return mrb_float_p(*value);
   }
 
-  Boolean MrbValue::IsString()
+  Boolean Value::IsString()
   {
     return mrb_string_p(*value);
   }
 
-  Boolean MrbValue::IsArray()
+  Boolean Value::IsArray()
   {
     return mrb_array_p(*value);
   }
 
-  Boolean MrbValue::IsHash()
+  Boolean Value::IsHash()
   {
     return mrb_hash_p(*value);
   }
 
-  Boolean MrbValue::ToBoolean()
+  Boolean Value::ToBoolean()
   {
     return mrb_bool(*value);
   }
 
-  String^ MrbValue::ToString(MrbState^ mrb)
+  String^ Value::ToString(State^ mrb)
   {
     if (mrb_string_p(*value)) {
       return gcnew String(RSTRING_PTR(*value));
@@ -89,56 +89,56 @@ namespace nmrb {
     return gcnew String(RSTRING_PTR(res));
   }
 
-  Dictionary<MrbValue^, MrbValue^>^ MrbValue::ToDictionary(MrbState^ mrb)
+  Dictionary<Value^, Value^>^ Value::ToDictionary(State^ mrb)
   {
     khash_t(ht) *h = RHASH_TBL(*value);
     if (!h) {
-      return gcnew Dictionary<MrbValue^, MrbValue^>();
+      return gcnew Dictionary<Value^, Value^>();
     }
     khiter_t k;
-    Dictionary<MrbValue^,MrbValue^>^ res = gcnew Dictionary<MrbValue^, MrbValue^>();
+    Dictionary<Value^,Value^>^ res = gcnew Dictionary<Value^, Value^>();
     for (k = kh_begin(h); k != kh_end(h); k++) {
       if (kh_exist(h, k)) {
         mrb_value key = kh_key(h, k);
         mrb_value val = kh_value(h, k).v;
-        res->Add(gcnew MrbValue(key), gcnew MrbValue(val));
+        res->Add(gcnew Value(key), gcnew Value(val));
       }
     }
     return res;
   }
 
-  MrbValue^ MrbValue::ToMrbValue(mrb_state* mrb, mrb_value val)
+  Value^ Value::ToMrbValue(mrb_state* mrb, mrb_value val)
   {
     if (mrb_nil_p(val)) {
-      return gcnew MrbNilValue();
+      return gcnew NilValue();
     }
     else if (mrb_symbol_p(val)) {
-      return gcnew MrbSymbolValue(val);
+      return gcnew SymbolValue(val);
     }
     else if (mrb_type(val) == MRB_TT_TRUE) {
-      return gcnew MrbTrueValue();
+      return gcnew TrueValue();
     }
     else if (mrb_type(val) == MRB_TT_FALSE) {
-      return gcnew MrbFalseValue();
+      return gcnew FalseValue();
     }
     else if (mrb_fixnum_p(val)) {
-      return gcnew MrbFixnumValue(mrb_fixnum(val));
+      return gcnew FixnumValue(mrb_fixnum(val));
     }
     else if (mrb_float_p(val)) {
-      return gcnew MrbFloatValue(gcnew MrbState(mrb), mrb_float(val));
+      return gcnew FloatValue(gcnew State(mrb), mrb_float(val));
     }
     else if (mrb_string_p(val)) {
-      return gcnew MrbStringValue(mrb, mrb_string_value_cstr(mrb, &val));
+      return gcnew StringValue(mrb, mrb_string_value_cstr(mrb, &val));
     }
     else if (mrb_array_p(val)) {
-      MrbArrayValue^ ary = gcnew MrbArrayValue(mrb);
+      ArrayValue^ ary = gcnew ArrayValue(mrb);
       for (int i = 0; i < mrb_ary_len(mrb, val); i++) {
         mrb_value item = mrb_ary_ref(mrb, val, i);
-        ary->Add(gcnew MrbState(mrb), MrbValue::ToMrbValue(mrb, item));
+        ary->Add(gcnew State(mrb), Value::ToMrbValue(mrb, item));
       }
       return ary;
     }
-    return gcnew MrbValue(val);
+    return gcnew Value(val);
   }
 
 }

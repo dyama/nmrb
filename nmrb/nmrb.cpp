@@ -6,19 +6,19 @@ namespace nmrb
   {
     const char* s = mrb_sym2name(mrb, mrb->c->ci->mid);
     String^ mname = gcnew String(s);
-    if (!MrbState::CliMethods->ContainsKey(mname)) {
+    if (!State::CliMethods->ContainsKey(mname)) {
       mrb_raisef(mrb, E_NOMETHOD_ERROR, "No such CLI method: %s", s);
     }
     try {
-      MrbFuncType^ f = MrbState::CliMethods[mname];
-      List<MrbValue^>^ a = gcnew List<MrbValue^>();
+      FuncType^ f = State::CliMethods[mname];
+      List<Value^>^ a = gcnew List<Value^>();
       mrb_value* args;
       mrb_int len;
       mrb_get_args(mrb, "*", &args, &len);
       for (int i = 0; i < len; i++) {
-        a->Add(MrbValue::ToMrbValue(mrb, args[i]));
+        a->Add(Value::ToMrbValue(mrb, args[i]));
       }
-      MrbValue^ cli_res = f(a->ToArray());
+      Value^ cli_res = f(a->ToArray());
       return *(cli_res->ptr);
     }
     catch (Exception^ ex) {
