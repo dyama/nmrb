@@ -9,7 +9,7 @@ namespace nmrb {
   {
   public:
     MrbFloatValue(MrbState^ cli_mrb, Double val)
-      : MrbValue(cli_mrb->ptr, mrb_float_value(cli_mrb->ptr, val))
+      : MrbValue(mrb_float_value(cli_mrb->ptr, val))
     {
       ;
     }
@@ -17,12 +17,6 @@ namespace nmrb {
     Double ToDouble()
     {
       return mrb_float(*value);
-    }
-
-  internal:
-    MrbFloatValue(mrb_state* mrb, double val) : MrbValue(mrb, mrb_float_value(mrb, val))
-    {
-      ;
     }
   };
 

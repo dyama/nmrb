@@ -33,6 +33,7 @@ namespace nmrb {
 
   public:
     MrbState();
+    MrbState(mrb_state* src);
     ~MrbState();
     !MrbState();
 

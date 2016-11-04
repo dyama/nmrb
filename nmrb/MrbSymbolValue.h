@@ -12,7 +12,7 @@ namespace nmrb {
     char* s = nullptr;
   public:
     MrbSymbolValue(MrbState^ cli_mrb, String^ symname)
-      : MrbValue(cli_mrb->ptr, mrb_nil_value())
+      : MrbValue()
     {
       s = clistr_to_utf8(symname);
       *value = mrb_symbol_value(mrb_intern_cstr(cli_mrb->ptr, s));
@@ -21,11 +21,11 @@ namespace nmrb {
     !MrbSymbolValue() { if (s) mrb_utf8_free(s); };
   internal:
     MrbSymbolValue(mrb_state* mrb, const char* symname)
-      : MrbValue(mrb, mrb_symbol_value(mrb_intern_cstr(mrb, symname)))
+      : MrbValue(mrb_symbol_value(mrb_intern_cstr(mrb, symname)))
     {
       ;
     }
-    MrbSymbolValue(mrb_state* mrb, mrb_value sym) : MrbValue(mrb, sym)
+    MrbSymbolValue(mrb_value sym) : MrbValue(sym)
     {
       ;
     }

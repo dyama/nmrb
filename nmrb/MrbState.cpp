@@ -16,6 +16,13 @@ namespace nmrb {
     ai = mrb_gc_arena_save(mrb);
   }
 
+  MrbState::MrbState(mrb_state* src)
+  {
+    LastErrorMessage = String::Empty;
+    HasError = false;
+    mrb = src;
+  }
+
   MrbState::~MrbState()
   {
     this->!MrbState();
@@ -92,7 +99,7 @@ namespace nmrb {
 
   MrbValue^ MrbState::DoFile(String^ path)
   {
-    MrbValue^ res = gcnew MrbValue(mrb, mrb_nil_value());
+    MrbValue^ res = gcnew MrbValue(mrb_nil_value());
     for each (String^ line in IO::File::ReadLines(path))
     {
       Do(line);

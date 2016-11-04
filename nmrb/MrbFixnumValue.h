@@ -8,8 +8,8 @@ namespace nmrb {
   public ref class MrbFixnumValue : MrbValue
   {
   public:
-    MrbFixnumValue(MrbState^ cli_mrb, Int32 val)
-      : MrbValue(cli_mrb->ptr, mrb_fixnum_value(val))
+    MrbFixnumValue(Int32 val)
+      : MrbValue(mrb_fixnum_value(val))
     {
       ;
     }
@@ -22,12 +22,6 @@ namespace nmrb {
     Int32 ToInt32()
     {
       return mrb_fixnum(*value);
-    }
-
-  internal:
-    MrbFixnumValue(mrb_state* mrb, int val) : MrbValue(mrb, mrb_fixnum_value(val))
-    {
-      ;
     }
   };
 

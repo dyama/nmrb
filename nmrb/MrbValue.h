@@ -10,11 +10,7 @@ namespace nmrb {
   public ref class MrbValue
   {
   protected:
-    mrb_state* mrb;
     mrb_value* value;
-
-  public:
-    MrbState^ climrb;
 
   public:
     property MrbValueType Type
@@ -26,8 +22,9 @@ namespace nmrb {
     }
 
   internal:
-    MrbValue(mrb_state* mrb, mrb_value src);
-    MrbValue(MrbState^ climrb, MrbValue^ src);
+    MrbValue();
+    MrbValue(mrb_value src);
+    MrbValue(MrbValue^ src);
     ~MrbValue();
     !MrbValue();
     property mrb_value* ptr { mrb_value* get() { return value; } }
@@ -41,8 +38,8 @@ namespace nmrb {
     Boolean IsArray();
     Boolean IsHash();
     Boolean ToBoolean();
-    String^ ToString() override;
-    virtual Dictionary<String^, MrbValue^>^ ToDictionary();
+    String^ ToString(MrbState^ mrb);
+    virtual Dictionary<MrbValue^, MrbValue^>^ ToDictionary(MrbState^ mrb);
 
   internal:
     static MrbValue^ ToMrbValue(mrb_state* mrb, mrb_value val);

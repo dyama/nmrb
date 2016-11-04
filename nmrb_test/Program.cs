@@ -14,8 +14,8 @@ namespace nmrb_test
 
         mrb.Do("c=123");
 
-        WriteLine(mrb["'test'"]);
-        WriteLine(mrb["c = 123; c+=1"]);
+        WriteLine(mrb["'test'"].ToString(mrb));
+        WriteLine(mrb["c = 123; c+=1"].ToString(mrb));
 
         mrb.Do(@"
         class Test
@@ -28,17 +28,17 @@ namespace nmrb_test
 
         // Array to Array
         dynamic ary = mrb["[1, 'X', :sym, 3.14]"];
-        foreach (var a in ary.ToArray()) {
-          WriteLine(a);
+        foreach (var a in ary.ToArray(mrb)) {
+          WriteLine(a.ToString(mrb));
         }
         ary = mrb["'mruby'.each_char.to_a"];
-        foreach (var a in ary.ToArray()) {
-          WriteLine(a);
+        foreach (var a in ary.ToArray(mrb)) {
+          WriteLine(a.ToString(mrb));
         }
 
         // Hash to Dictionary
-        foreach (var a in mrb["{foo:'hoge', bar:'fuga'}"].ToDictionary()) {
-          WriteLine(a);
+        foreach (var a in mrb["{foo:'hoge', bar:'fuga'}"].ToDictionary(mrb)) {
+          WriteLine($"[{a.Key.ToString(mrb)}, {a.Value.ToString(mrb)}]");
         }
 
         // Define C# function to ruby env
@@ -65,7 +65,7 @@ namespace nmrb_test
           x * x
         end
         ");
-        dynamic res = mrb.FunCall("twice", new MrbFixnumValue(mrb, 5));
+        dynamic res = mrb.FunCall("twice", new MrbFixnumValue(5));
         var ans = res.ToInteger();
 
         WriteLine($"ans: {ans}");
