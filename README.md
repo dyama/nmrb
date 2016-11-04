@@ -6,7 +6,7 @@ About mruby: https://github.com/mruby/mruby/blob/master/README.md
 ## Examples
 
     // Make MrbState object.
-    using (var mrb = new MrbState()) {
+    using (var mrb = new nmrb.State()) {
     
        // Ruby script
        var src = @"
@@ -20,8 +20,8 @@ About mruby: https://github.com/mruby/mruby/blob/master/README.md
        mrb.Do(src);
     
        // Returns value
-       MrbValue value = mrb.Do("123");
-       int result = (MrbValue as MrbFixnumValue).ToInteger();
+       Value value = mrb.Do("123");
+       int result = (value as FixnumValue).ToInteger();
        
        // Callback C# function from Ruby environment
        mrb.DefineCliMethod("clifunc", (args) => {
@@ -29,11 +29,11 @@ About mruby: https://github.com/mruby/mruby/blob/master/README.md
            string message = args.First().ToString();
            var button = MessageBox.Show(message, "mruby", MessageBoxButtons.OKCancel);
            if (button == DialogResult.OK) {
-             return new MrbTrueValue(mrb);
+             return new TrueValue(mrb);
            }
-           return new MrbFalseValue(mrb);
+           return new FalseValue(mrb);
          }
-         return new MrbNilValue(mrb);
+         return new NilValue(mrb);
        });
        mrb.Do("clifunc 'こんにちは、世界。'");
        
