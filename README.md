@@ -79,6 +79,11 @@ Process
     cd ..
     devenv.exe nmrb.sln
 
+## Note
+
+* Callback mapper object is *static*. It means that do not guarantee independence between multiple nmrb.State objects.
+* DefineCliMethod supports to add a method to Kernel module only.
+
 ## License
 
 MIT License
