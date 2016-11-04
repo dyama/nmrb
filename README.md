@@ -3,6 +3,8 @@ nmrb is mruby binding library for Microsoft .NET framework 4.6.
 
 About mruby: https://github.com/mruby/mruby/blob/master/README.md
 
+![nmrb](http://dyama.org/wp-content/uploads/2016/11/nmrb.png)
+
 ## Examples
 
     // Make MrbState object.
