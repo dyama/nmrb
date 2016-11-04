@@ -41,3 +41,6 @@
 /nmrb/Release
 /nmrb/app.ico
 /*.opendb
+/nmrb_unittest/obj
+/nmrb_unittest/bin
+/TestResults
