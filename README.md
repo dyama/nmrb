@@ -73,10 +73,8 @@ Requirements
 
 Process
 
-    git clone git@github.com:dyama/nmrb.git
-    cd nmrb
-    git clone git@github.com:mruby/mruby.git
-    cd mruby
+    git clone --recursive git@github.com:dyama/nmrb.git
+    cd nmrb/mruby
     ruby minirake
     cd ..
     devenv.exe nmrb.sln
