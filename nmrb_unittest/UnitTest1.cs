@@ -9,7 +9,7 @@ namespace nmrb_unittest
   public class UnitTest1
   {
     [TestMethod]
-    public void test1()
+    public void Test1()
     {
       State mrb = new State();
       mrb.Dispose();
@@ -17,7 +17,7 @@ namespace nmrb_unittest
     }
 
     [TestMethod]
-    public void test2()
+    public void Test2()
     {
       using (var mrb = new State()) {
         Assert.AreEqual(new FixnumValue(123).ToInt32(), 123);
@@ -30,7 +30,7 @@ namespace nmrb_unittest
     }
 
     [TestMethod]
-    public void test3()
+    public void Test3()
     {
       using (var mrb = new State()) {
         dynamic r = mrb["123"];
@@ -42,7 +42,7 @@ namespace nmrb_unittest
 
     [TestMethod]
     [Ignore]
-    public void unicodecheck()
+    public void Unicodecheck()
     {
       //Assert.AreEqual(new StringValue(mrb, "こんにちは").ToString(mrb), "こんにちは");
     }

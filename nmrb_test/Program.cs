@@ -42,22 +42,25 @@ namespace nmrb_test
         }
 
         // Define C# function to ruby env
-        mrb.DefineCliMethod("csfunc", (args)=> {
-          if (args.Length > 0 && args[0].IsFixnum()) {
-            int n = (args[0] as FixnumValue).ToInteger();
-            for (int i = 0; i < n; i++) {
-              WriteLine("callback");
-            }
-          }
-          else {
+        mrb.DefineCliMethod("csfunc", (args) => {
+        if (args.Length > 0 && args[0].IsFixnum()) {
+          int n = (args[0] as FixnumValue).ToInteger();
+          for (int i = 0; i < n; i++) {
             WriteLine("callback");
           }
-          MessageBox.Show("hello!");
+        }
+        else {
+            var ss = (args[0] as StringValue).ToString(mrb);
+          WriteLine(ss);
+          MessageBox.Show(ss);
+          }
+          
+          //MessageBox.Show("hello!");
           return new StringValue(mrb, "This is C#.");
         });
 
         // Call C# function from ruby
-        mrb.Do("p csfunc(3)");
+        mrb.Do("p csfunc('こんにちは')");
 
         // funcall
         mrb.Do(@"
