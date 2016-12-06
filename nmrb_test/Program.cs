@@ -49,18 +49,18 @@ namespace nmrb_test
             WriteLine("callback");
           }
         }
-        else {
+          else {
             var ss = (args[0] as StringValue).ToString(mrb);
-          WriteLine(ss);
-          MessageBox.Show(ss);
+            WriteLine(ss);
+            MessageBox.Show(ss);
           }
-          
+
           //MessageBox.Show("hello!");
           return new StringValue(mrb, "This is C#.");
         });
 
         // Call C# function from ruby
-        mrb.Do("p csfunc('こんにちは')");
+        mrb.Do("p csfunc('こんにちは！')");
 
         // funcall
         mrb.Do(@"

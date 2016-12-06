@@ -82,11 +82,14 @@ namespace nmrb {
 
   String^ Value::ToString(State^ mrb)
   {
+    System::Text::UTF8Encoding^ e = gcnew System::Text::UTF8Encoding(false);
     if (mrb_string_p(*value)) {
-      return gcnew String(RSTRING_PTR(*value));
+      return e->GetString((unsigned char*)RSTRING_PTR(*value), mrb_string_value_len(mrb->ptr, *value));
     }
-    mrb_value res = mrb_funcall(mrb->ptr, *value, "to_s", 0);
-    return gcnew String(RSTRING_PTR(res));
+    else {
+      mrb_value res = mrb_funcall(mrb->ptr, *value, "to_s", 0);
+      return e->GetString((unsigned char*)RSTRING_PTR(res), mrb_string_value_len(mrb->ptr, res));
+    }
   }
 
   Dictionary<Value^, Value^>^ Value::ToDictionary(State^ mrb)
