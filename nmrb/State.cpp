@@ -37,7 +37,10 @@ namespace nmrb {
       mrbc_context_free(mrb, cxt);
     }
     if (mrb) {
-      mrb_close(mrb);
+      try {
+        mrb_close(mrb);
+      }
+      catch (...) {}
     }
   }
 

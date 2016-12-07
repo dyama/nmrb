@@ -29,6 +29,10 @@ namespace nmrb {
     }
     Value^ Get(State^ mrb, Int32 index)
     {
+      mrb_value val = mrb_ary_ref(mrb->ptr, *value, index);
+      if (mrb_array_p(val)) {
+        return gcnew ArrayValue(mrb->ptr, val);
+      }
       return gcnew Value(mrb_ary_ref(mrb->ptr, *value, index));
     }
     array<Value^>^ ToArray(State^ mrb)
@@ -43,6 +47,15 @@ namespace nmrb {
     ArrayValue(mrb_state* mrb) : Value(mrb_ary_new(mrb))
     {
       ;
+    }
+    ArrayValue(mrb_state* mrb, mrb_value srcary) : Value(mrb_ary_new(mrb))
+    {
+      if (mrb_array_p(srcary)) {
+        mrb_ary_concat(mrb, *value, srcary);
+      }
+      else {
+        throw gcnew Exception();
+      }
     }
   };
 
