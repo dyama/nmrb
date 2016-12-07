@@ -74,9 +74,8 @@ Requirements
 Process
 
     git clone --recursive git@github.com:dyama/nmrb.git
-    cd nmrb/mruby
-    ruby minirake
-    cd ..
+    cd nmrb
+    build_mruby_vs14.bat
     devenv.exe nmrb.sln
 
 ## Note
