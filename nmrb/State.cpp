@@ -85,8 +85,16 @@ namespace nmrb {
           // mrb_p(mrb, result);
         }
       }
-      LastErrorMessage = String::Empty;
-      HasError = false;
+      if (mrb_exception_p(result)) {
+        mrb_value mstr = mrb_funcall(mrb, result, "to_s", 0);
+        const char* cstr = mrb_string_value_cstr(mrb, &mstr);
+        LastErrorMessage = gcnew String(cstr);
+        HasError = true;
+      }
+      else {
+        LastErrorMessage = String::Empty;
+        HasError = false;
+      }
     }
     catch (Exception^ ex) {
       LastErrorMessage = ex->Message;
