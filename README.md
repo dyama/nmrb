@@ -83,6 +83,12 @@ Process
 * Callback mapper object is *static*. It means that do not guarantee independence between multiple nmrb.State objects.
 * DefineCliMethod supports to add a method to Kernel module only.
 
+## Demo project
+
+See https://github.com/dyama/nmrb
+
+![screenshot](https://pbs.twimg.com/media/CzEPSdVUQAYUG1-.jpg)
+
 ## License
 
 MIT License
