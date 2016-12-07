@@ -30,18 +30,18 @@ namespace nmrb {
 
   State::!State()
   {
-    if (parser) {
-      delete parser;
-    }
-    if (cxt) {
-      mrbc_context_free(mrb, cxt);
-    }
-    if (mrb) {
-      try {
-        mrb_close(mrb);
-      }
-      catch (...) {}
-    }
+    //if (parser) {
+    //  delete parser;
+    //}
+    //if (cxt) {
+    //  mrbc_context_free(mrb, cxt);
+    //}
+    //if (mrb) {
+    //  try {
+    //    mrb_close(mrb);
+    //  }
+    //  catch (...) {}
+    //}
   }
 
   Value^ State::Do(String^ script)

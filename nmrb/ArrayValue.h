@@ -30,10 +30,7 @@ namespace nmrb {
     Value^ Get(State^ mrb, Int32 index)
     {
       mrb_value val = mrb_ary_ref(mrb->ptr, *value, index);
-      if (mrb_array_p(val)) {
-        return gcnew ArrayValue(mrb->ptr, val);
-      }
-      return gcnew Value(mrb_ary_ref(mrb->ptr, *value, index));
+      return Value::ToMrbValue(mrb->ptr, val);
     }
     array<Value^>^ ToArray(State^ mrb)
     {
