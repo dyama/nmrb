@@ -4,6 +4,8 @@ REM for git.exe and bison.exe
 set "PATH=E:\Git\bin;%PATH%"
 
 cd mruby
+del vc140.pdb
 ruby minirake clean
 ruby minirake default
 cd ..
+pause
