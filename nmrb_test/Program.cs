@@ -37,30 +37,21 @@ namespace nmrb_test
         }
 
         // Hash to Dictionary
-        foreach (var a in mrb["{foo:'hoge', bar:'fuga'}"].ToDictionary(mrb)) {
-          WriteLine($"[{a.Key.ToString(mrb)}, {a.Value.ToString(mrb)}]");
+        foreach (var a in mrb["{foo:'ほげ', bar:'ふが'}"].ToDictionary(mrb)) {
+          WriteLine($"({a.Key.ToString(mrb)}, {a.Value.ToString(mrb)})");
         }
 
         // Define C# function to ruby env
         mrb.DefineCliMethod("csfunc", (args) => {
-        if (args.Length > 0 && args[0].IsFixnum()) {
-          int n = (args[0] as FixnumValue).ToInteger();
-          for (int i = 0; i < n; i++) {
-            WriteLine("callback");
-          }
-        }
-          else {
+          if (args.Length > 0) {
             var ss = (args[0] as StringValue).ToString(mrb);
-            WriteLine(ss);
             MessageBox.Show(ss);
           }
-
-          //MessageBox.Show("hello!");
-          return new StringValue(mrb, "This is C#.");
+          return new NilValue();
         });
 
         // Call C# function from ruby
-        mrb.Do("p csfunc('こんにちは！')");
+        mrb.Do("csfunc 'こんにちは！' * 3");
 
         // funcall
         mrb.Do(@"
