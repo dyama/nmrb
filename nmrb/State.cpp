@@ -111,13 +111,7 @@ namespace nmrb {
   Value^ State::DoFile(String^ path)
   {
     Value^ res = gcnew Value(mrb_nil_value());
-    for each (String^ line in IO::File::ReadLines(path))
-    {
-      Do(line);
-      if (HasError) {
-        break;
-      }
-    }
+    Do(IO::File::ReadAllText(path));
     return res;
   }
 

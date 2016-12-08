@@ -20,39 +20,75 @@ namespace example1
     public Form1()
     {
       InitializeComponent();
-      exitToolStripMenuItem.Click += (sender, e) => Close();
-      toolStripButton1.Click += ToolStripButton1_Click;
+      runButton.Click += runButton_Click;
+      lcd.BackColor = Color.FromArgb(0x9c,0xc0,0x96);
+      reloadButton.Click += (s, e) => reload();
+      reload();
+      this.KeyDown += Form1_KeyDown;
+      rubyCode.Select(0, 0);
+    }
+
+    private void reload()
+    {
+      if (runButton.Checked) {
+        stop();
+      }
+      if (System.IO.File.Exists("./default.rb")) {
+        rubyCode.Text = System.IO.File.ReadAllText("./default.rb");
+      }
+    }
+
+    private void Form1_KeyDown(object sender, KeyEventArgs e)
+    {
+      if (runButton.Checked) {
+        var k = e.KeyValue;
+        mrb.Do($"$d.keydown({k})");
+      }
+    }
+
+    private void stop()
+    {
+      if (t != null)
+        t.Stop();
+      runButton.Checked = false;
+      rubyCode.Enabled = true;
     }
 
     Timer t = new Timer();
 
-    private void ToolStripButton1_Click(object sender, EventArgs e)
+    private void runButton_Click(object sender, EventArgs e)
     {
-      toolStripButton1.Checked = !toolStripButton1.Checked;
-      if (toolStripButton1.Checked) {
-        textBox1.Enabled = false;
+      runButton.Checked = !runButton.Checked;
+      if (runButton.Checked) {
+        rubyCode.Enabled = false;
         mrb = new State();
         def_class();
-        mrb.Do(textBox1.Text);
+        if (mrb.HasError) {
+          toolStripStatusLabel1.Text = mrb.LastErrorMessage;
+          stop();
+          return;
+        }
+        mrb.Do(rubyCode.Text);
+        if (mrb.HasError) {
+          toolStripStatusLabel1.Text = mrb.LastErrorMessage;
+          stop();
+          return;
+        }
         mrb.Do("$d = Display.new");
         if (mrb.HasError) {
           toolStripStatusLabel1.Text = mrb.LastErrorMessage;
-          toolStripButton1.Checked = false;
-          textBox1.Enabled = true;
+          stop();
           return;
         }
         mrb.Do("$d.init");
         if (mrb.HasError) {
           toolStripStatusLabel1.Text = mrb.LastErrorMessage;
-          toolStripButton1.Checked = false;
-          textBox1.Enabled = true;
+          stop();
           return;
         }
         t.Tick += (ss, ee) => {
           if (update() > 0) {
-            textBox1.Enabled = true;
-            toolStripButton1.Checked = false;
-            t.Stop();
+            stop();
           }
         };
         t.Interval = 10;
@@ -63,36 +99,18 @@ namespace example1
         t.Start();
       }
       else {
-        textBox1.Enabled = true;
-        t.Stop();
+        stop();
       }
     }
 
     public void def_class()
     {
-      mrb.Do(@"
-        class Display
-          WIDTH = 64
-          HEIGHT = 32
-          attr_accessor :disp, :c, :wait
-          def initialize
-            @disp = Array.new(Display::WIDTH * Display::HEIGHT, 0)
-            @c = 0
-            @wait = 10
-          end
-          def init
-
-          end
-          def update
-
-          end
-        end
-       ");
+      mrb.DoFile("./Display.rb");
     }
 
     private int update()
     {
-      mrb.Do(textBox1.Text);
+      mrb.Do(rubyCode.Text);
       if (mrb.HasError) {
         toolStripStatusLabel1.Text = mrb.LastErrorMessage;
         return 1;
@@ -101,10 +119,10 @@ namespace example1
         toolStripStatusLabel1.Text = "";
       }
       if (bmp == null) {
-        bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+        bmp = new Bitmap(lcd.Width, lcd.Height);
       }
       var g = Graphics.FromImage(bmp);
-      g.FillRectangle(Brushes.Black, 0, 0, bmp.Width, bmp.Height);
+      g.FillRectangle(new SolidBrush(lcd.BackColor), 0, 0, bmp.Width, bmp.Height);
 
       mrb.Do("$d.update");
       if (mrb.HasError) {
@@ -115,9 +133,9 @@ namespace example1
       try {
         var ww = (mrb["Display::WIDTH"] as FixnumValue).ToInteger();
         var hh = (mrb["Display::HEIGHT"] as FixnumValue).ToInteger();
-        var sz = 8;
+        var sz = 6;
 
-        var a1 = mrb.Do("$d.disp");
+        var a1 = mrb.Do("$d.buf");
         if (mrb.HasError) {
           toolStripStatusLabel1.Text = mrb.LastErrorMessage;
           return 1;
@@ -128,8 +146,20 @@ namespace example1
         for (var i = 0; i < ary.Length; i++) {
           var x = i % ww;
           var y = (int)(i / ww);
-          Brush b = ary[i] == 0 ? Brushes.DarkGreen : Brushes.GreenYellow;
-          g.FillRectangle(b, x * sz + 1, y * sz + 1, sz - 2, sz - 2);
+          Brush b = new SolidBrush(Color.FromArgb(0x86, 0xa6, 0x82));
+          if (ary[i] == 1) {
+            b = new SolidBrush(Color.FromArgb(0x64, 0x6b, 0x60));
+          }
+          else if (ary[i] == 2) {
+            b = new SolidBrush(Color.FromArgb(0x42, 0x53, 0x40));
+          }
+          else if (ary[i] == 3) {
+            b = new SolidBrush(Color.FromArgb(0x21, 0x3b, 0x20));
+          }
+          else if (ary[i] == 4) {
+            b = new SolidBrush(Color.FromArgb(0x00, 0x18, 0x00));
+          }
+          g.FillRectangle(b, x * sz, y * sz, sz - 1, sz - 1);
         }
         mrb.Do("$d.c += 1");
       }
@@ -137,7 +167,7 @@ namespace example1
         toolStripStatusLabel1.Text = ex.Message;
         return 2;
       }
-      pictureBox1.Image = bmp;
+      lcd.Image = bmp;
       return 0;
     }
   }
