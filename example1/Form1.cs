@@ -148,13 +148,13 @@ namespace example1
           var y = (int)(i / ww);
           Brush b = new SolidBrush(Color.FromArgb(0x86, 0xa6, 0x82));
           if (ary[i] == 1) {
-            b = new SolidBrush(Color.FromArgb(0x64, 0x6b, 0x60));
+            b = new SolidBrush(Color.FromArgb(0x64, 0x8c, 0x60));
           }
           else if (ary[i] == 2) {
-            b = new SolidBrush(Color.FromArgb(0x42, 0x53, 0x40));
+            b = new SolidBrush(Color.FromArgb(0x42, 0x69, 0x40));
           }
           else if (ary[i] == 3) {
-            b = new SolidBrush(Color.FromArgb(0x21, 0x3b, 0x20));
+            b = new SolidBrush(Color.FromArgb(0x21, 0x46, 0x20));
           }
           else if (ary[i] == 4) {
             b = new SolidBrush(Color.FromArgb(0x00, 0x18, 0x00));
