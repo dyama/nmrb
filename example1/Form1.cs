@@ -87,7 +87,8 @@ namespace example1
           return;
         }
         t.Tick += (ss, ee) => {
-          if (update() > 0) {
+          var n = update();
+          if (n != 0) {
             stop();
           }
         };
@@ -124,7 +125,7 @@ namespace example1
       var g = Graphics.FromImage(bmp);
       g.FillRectangle(new SolidBrush(lcd.BackColor), 0, 0, bmp.Width, bmp.Height);
 
-      mrb.Do("$d.update");
+      var r = mrb.Do("$d.update");
       if (mrb.HasError) {
         toolStripStatusLabel1.Text = mrb.LastErrorMessage;
         return 1;
@@ -168,7 +169,19 @@ namespace example1
         return 2;
       }
       lcd.Image = bmp;
+      if ((r as FalseValue) != null) {
+        return -1;
+      }
       return 0;
+    }
+
+    private void toolStripButton1_Click(object sender, EventArgs e)
+    {
+      var d = new OpenFileDialog();
+      d.Filter = "Ruby script file(*.rb)|*.rb|All files(*.*)|*.*";
+      if (d.ShowDialog() == DialogResult.OK) {
+        rubyCode.Text = System.IO.File.ReadAllText(d.FileName);
+      }
     }
   }
 }

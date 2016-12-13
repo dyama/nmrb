@@ -34,10 +34,12 @@
       this.statusStrip1 = new System.Windows.Forms.StatusStrip();
       this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
       this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-      this.runButton = new System.Windows.Forms.ToolStripButton();
       this.reloadButton = new System.Windows.Forms.ToolStripButton();
       this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+      this.runButton = new System.Windows.Forms.ToolStripButton();
       this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+      this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+      this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
       ((System.ComponentModel.ISupportInitialize)(this.lcd)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
       this.splitContainer1.Panel1.SuspendLayout();
@@ -109,6 +111,8 @@
       this.toolStrip1.CanOverflow = false;
       this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
       this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton1,
+            this.toolStripSeparator3,
             this.reloadButton,
             this.toolStripSeparator1,
             this.runButton,
@@ -119,20 +123,12 @@
       this.toolStrip1.TabIndex = 3;
       this.toolStrip1.Text = "toolStrip1";
       // 
-      // runButton
-      // 
-      this.runButton.Image = global::example1.Properties.Resources.start;
-      this.runButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.runButton.Name = "runButton";
-      this.runButton.Size = new System.Drawing.Size(50, 22);
-      this.runButton.Text = "&Run";
-      // 
       // reloadButton
       // 
       this.reloadButton.Image = global::example1.Properties.Resources.refresh;
       this.reloadButton.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.reloadButton.Name = "reloadButton";
-      this.reloadButton.Size = new System.Drawing.Size(67, 22);
+      this.reloadButton.Size = new System.Drawing.Size(60, 22);
       this.reloadButton.Text = "&Reload";
       // 
       // toolStripSeparator1
@@ -140,10 +136,32 @@
       this.toolStripSeparator1.Name = "toolStripSeparator1";
       this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
       // 
+      // runButton
+      // 
+      this.runButton.Image = global::example1.Properties.Resources.start;
+      this.runButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.runButton.Name = "runButton";
+      this.runButton.Size = new System.Drawing.Size(45, 22);
+      this.runButton.Text = "&Run";
+      // 
       // toolStripSeparator2
       // 
       this.toolStripSeparator2.Name = "toolStripSeparator2";
       this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+      // 
+      // toolStripButton1
+      // 
+      this.toolStripButton1.Image = global::example1.Properties.Resources.open;
+      this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.toolStripButton1.Name = "toolStripButton1";
+      this.toolStripButton1.Size = new System.Drawing.Size(51, 22);
+      this.toolStripButton1.Text = "&Open";
+      this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+      // 
+      // toolStripSeparator3
+      // 
+      this.toolStripSeparator3.Name = "toolStripSeparator3";
+      this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
       // 
       // Form1
       // 
@@ -186,6 +204,8 @@
     private System.Windows.Forms.ToolStripButton reloadButton;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+    private System.Windows.Forms.ToolStripButton toolStripButton1;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
   }
 }
 
