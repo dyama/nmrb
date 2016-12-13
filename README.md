@@ -1,4 +1,5 @@
 # nmrb
+
 nmrb is mruby binding library for Microsoft .NET framework 4.6.
 
 About mruby: https://github.com/mruby/mruby/blob/master/README.md
@@ -61,17 +62,21 @@ About mruby: https://github.com/mruby/mruby/blob/master/README.md
 4. Call `Do` function with Ruby script string.
 
     mrb.Do("puts 'happy mruby life!'");
-    
+
+You can get more infomation at [Github project page](https://github.com/dyama/nmrb).
+
 ## How to build nmrb.dll
 
-Requirements
+### Requirements
 
 * Microsoft Windows 7 or later
-* Microsoft Visual Studio 2015
-* Ruby (for build mruby)
-* Git
+* Microsoft Visual Studio 2015 (vs14)
+* mruby
+  * Ruby
+  * Git
+  * Bison and Flex
 
-Process
+### Process
 
     git clone --recursive git@github.com:dyama/nmrb.git
     cd nmrb
@@ -85,9 +90,9 @@ Process
 
 ## Demo project
 
-See https://github.com/dyama/nmrb
+See https://github.com/dyama/nmrb/tree/master/example1
 
-![screenshot](https://pbs.twimg.com/media/CzEPSdVUQAYUG1-.jpg)
+![screenshot](https://pbs.twimg.com/media/CziYmHgVQAEqIW8.jpg)
 
 ## License
 
