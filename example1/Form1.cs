@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -26,6 +27,17 @@ namespace example1
       reload();
       this.KeyDown += Form1_KeyDown;
       rubyCode.Select(0, 0);
+      mrb = new State();
+      // mrb.DefineCliMethod("dialog", (args) => {
+      //   string s = "";
+      //   foreach (var ss in args) {
+      //     if (ss is StringValue) {
+      //       s += (ss as StringValue).ToString(mrb);
+      //     }
+      //   }
+      //   MessageBox.Show(s);
+      //   return new NilValue();
+      // });
     }
 
     private void reload()
@@ -33,8 +45,11 @@ namespace example1
       if (runButton.Checked) {
         stop();
       }
-      if (System.IO.File.Exists("./default.rb")) {
-        rubyCode.Text = System.IO.File.ReadAllText("./default.rb");
+      if (File.Exists(curr_file)) {
+        rubyCode.Text = File.ReadAllText("./default.rb");
+      }
+      else {
+        reloadButton.Enabled = false;
       }
     }
 
@@ -61,7 +76,6 @@ namespace example1
       runButton.Checked = !runButton.Checked;
       if (runButton.Checked) {
         rubyCode.Enabled = false;
-        mrb = new State();
         def_class();
         if (mrb.HasError) {
           toolStripStatusLabel1.Text = mrb.LastErrorMessage;
@@ -104,9 +118,13 @@ namespace example1
       }
     }
 
+    public string dir {
+      get { return Path.GetDirectoryName(Application.ExecutablePath).Replace("\\", "/"); }
+    }
+
     public void def_class()
     {
-      mrb.DoFile("./Display.rb");
+      mrb.DoFile($"{dir}/core/Display.rb");
     }
 
     private int update()
@@ -147,18 +165,12 @@ namespace example1
         for (var i = 0; i < ary.Length; i++) {
           var x = i % ww;
           var y = (int)(i / ww);
-          Brush b = new SolidBrush(Color.FromArgb(0x86, 0xa6, 0x82));
-          if (ary[i] == 1) {
-            b = new SolidBrush(Color.FromArgb(0x64, 0x8c, 0x60));
-          }
-          else if (ary[i] == 2) {
-            b = new SolidBrush(Color.FromArgb(0x42, 0x69, 0x40));
-          }
-          else if (ary[i] == 3) {
-            b = new SolidBrush(Color.FromArgb(0x21, 0x46, 0x20));
-          }
-          else if (ary[i] == 4) {
-            b = new SolidBrush(Color.FromArgb(0x00, 0x18, 0x00));
+          Brush b = b0;
+          switch (ary[i]) {
+          case 1: b = b1; break;
+          case 2: b = b2; break;
+          case 3: b = b3; break;
+          case 4: b = b4; break;
           }
           g.FillRectangle(b, x * sz, y * sz, sz - 1, sz - 1);
         }
@@ -175,13 +187,36 @@ namespace example1
       return 0;
     }
 
+    static Color c0 = Color.FromArgb(0x86, 0xa6, 0x82);
+    static Color c1 = Color.FromArgb(0x64, 0x8c, 0x60);
+    static Color c2 = Color.FromArgb(0x42, 0x69, 0x40);
+    static Color c3 = Color.FromArgb(0x21, 0x46, 0x20);
+    static Color c4 = Color.FromArgb(0x00, 0x18, 0x00);
+    static Brush b0 = new SolidBrush(c0);
+    static Brush b1 = new SolidBrush(c1);
+    static Brush b2 = new SolidBrush(c2);
+    static Brush b3 = new SolidBrush(c3);
+    static Brush b4 = new SolidBrush(c4);
+
+    string curr_file = "";
+
     private void toolStripButton1_Click(object sender, EventArgs e)
     {
       var d = new OpenFileDialog();
+      d.RestoreDirectory = true;
+      d.InitialDirectory = $"{dir}/scripts";
       d.Filter = "Ruby script file(*.rb)|*.rb|All files(*.*)|*.*";
       if (d.ShowDialog() == DialogResult.OK) {
-        rubyCode.Text = System.IO.File.ReadAllText(d.FileName);
+        curr_file = d.FileName;
+        rubyCode.Text = File.ReadAllText(curr_file);
+        reloadButton.Enabled = true;
       }
+    }
+
+    private void clearButton_Click(object sender, EventArgs e)
+    {
+      rubyCode.Text = "";
+      runButton_Click(sender, e);
     }
   }
 }
