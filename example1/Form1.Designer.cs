@@ -75,27 +75,30 @@
       // 
       this.splitContainer1.Panel2.Controls.Add(this.rubyCode);
       this.splitContainer1.Panel2.Controls.Add(this.statusStrip1);
-      this.splitContainer1.Size = new System.Drawing.Size(587, 669);
+      this.splitContainer1.Size = new System.Drawing.Size(587, 528);
       this.splitContainer1.SplitterDistance = 300;
       this.splitContainer1.TabIndex = 2;
       this.splitContainer1.TabStop = false;
       // 
       // rubyCode
       // 
+      this.rubyCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
       this.rubyCode.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.rubyCode.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+      this.rubyCode.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.rubyCode.ForeColor = System.Drawing.Color.Silver;
       this.rubyCode.Location = new System.Drawing.Point(0, 0);
       this.rubyCode.Multiline = true;
       this.rubyCode.Name = "rubyCode";
-      this.rubyCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-      this.rubyCode.Size = new System.Drawing.Size(587, 343);
+      this.rubyCode.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+      this.rubyCode.Size = new System.Drawing.Size(587, 202);
       this.rubyCode.TabIndex = 0;
+      this.rubyCode.WordWrap = false;
       // 
       // statusStrip1
       // 
       this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-      this.statusStrip1.Location = new System.Drawing.Point(0, 343);
+      this.statusStrip1.Location = new System.Drawing.Point(0, 202);
       this.statusStrip1.Name = "statusStrip1";
       this.statusStrip1.Size = new System.Drawing.Size(587, 22);
       this.statusStrip1.SizingGrip = false;
@@ -173,7 +176,7 @@
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(587, 694);
+      this.ClientSize = new System.Drawing.Size(587, 553);
       this.Controls.Add(this.splitContainer1);
       this.Controls.Add(this.toolStrip1);
       this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

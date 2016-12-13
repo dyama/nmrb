@@ -88,7 +88,8 @@ namespace nmrb {
       if (mrb_exception_p(result)) {
         mrb_value mstr = mrb_funcall(mrb, result, "to_s", 0);
         const char* cstr = mrb_string_value_cstr(mrb, &mstr);
-        LastErrorMessage = gcnew String(cstr);
+        LastErrorMessage = 
+        String::Format("{0}:{1} {2}", gcnew String(parser->filename), parser->lineno, gcnew String(cstr));
         HasError = true;
       }
       else {
