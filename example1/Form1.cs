@@ -46,7 +46,7 @@ namespace example1
         stop();
       }
       if (File.Exists(curr_file)) {
-        rubyCode.Text = File.ReadAllText("./default.rb");
+        rubyCode.Text = File.ReadAllText(curr_file);
       }
       else {
         reloadButton.Enabled = false;
