@@ -47,3 +47,9 @@
 /example1/bin
 /example1/obj
 /x64
+*.rb~
+*.un~
+*.log
+*.tlog
+*.pdb
+*.cache
