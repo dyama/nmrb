@@ -16,7 +16,7 @@ namespace nmrb
       mrb_int len;
       mrb_get_args(mrb, "*", &args, &len);
       for (int i = 0; i < len; i++) {
-        a->Add(Value::ToMrbValue(mrb, args[i]));
+        a->Add(Value::ToCliValue(mrb, args[i]));
       }
       Value^ cli_res = f(a->ToArray());
       return *(cli_res->ptr);

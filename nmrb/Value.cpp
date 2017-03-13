@@ -110,7 +110,7 @@ namespace nmrb {
     return res;
   }
 
-  Value^ Value::ToMrbValue(mrb_state* mrb, mrb_value val)
+  Value^ Value::ToCliValue(mrb_state* mrb, mrb_value val)
   {
     if (mrb_nil_p(val)) {
       return gcnew NilValue();
@@ -137,7 +137,7 @@ namespace nmrb {
       ArrayValue^ ary = gcnew ArrayValue(mrb);
       for (int i = 0; i < mrb_ary_len(mrb, val); i++) {
         mrb_value item = mrb_ary_ref(mrb, val, i);
-        ary->Add(gcnew State(mrb), Value::ToMrbValue(mrb, item));
+        ary->Add(gcnew State(mrb), Value::ToCliValue(mrb, item));
       }
       return ary;
     }

@@ -42,7 +42,7 @@ namespace nmrb {
     virtual Dictionary<Value^, Value^>^ ToDictionary(State^ mrb);
 
   internal:
-    static Value^ ToMrbValue(mrb_state* mrb, mrb_value val);
+    static Value^ ToCliValue(mrb_state* mrb, mrb_value val);
   };
 
   public delegate Value^ FuncType(array<Value^>^ args);

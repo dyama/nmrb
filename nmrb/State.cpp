@@ -106,7 +106,7 @@ namespace nmrb {
       mrb_parser_free(parser);
       cxt->lineno++;
     }
-    return Value::ToMrbValue(ptr, result);
+    return Value::ToCliValue(ptr, result);
   }
 
   Value^ State::DoFile(String^ path)
@@ -149,7 +149,7 @@ namespace nmrb {
     //   mrb_free(mrb, aa+i);
     // }
     free(aa);
-    return Value::ToMrbValue(mrb, res);
+    return Value::ToCliValue(mrb, res);
   }
 
 }
