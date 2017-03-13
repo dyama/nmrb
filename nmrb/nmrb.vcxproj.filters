@@ -37,6 +37,9 @@
     <ClInclude Include="ValueType.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="HashValue.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="header">

@@ -6,6 +6,7 @@
 namespace nmrb {
 
   ref class State;
+  ref class SymbolValue;
 
   public ref class Value
   {
@@ -31,6 +32,8 @@ namespace nmrb {
 
   public:
     Boolean IsNill();
+    Boolean IsTrue();
+    Boolean IsFalse();
     Boolean IsSymbol();
     Boolean IsFixnum();
     Boolean IsFloat();
@@ -38,9 +41,15 @@ namespace nmrb {
     Boolean IsArray();
     Boolean IsHash();
     Boolean ToBoolean();
-    String^ ToString(State^ mrb);
+    Int32 ToInteger();
+    Double ToDouble();
+    virtual String^ ToString(State^ mrb);
+    virtual array<Value^>^ ToArray(State^ mrb);
     virtual Dictionary<Value^, Value^>^ ToDictionary(State^ mrb);
 
+#if 0
+    static Value^ ToCliValue(State^ mrb, Object^ obj);
+#endif
   internal:
     static Value^ ToCliValue(mrb_state* mrb, mrb_value val);
   };

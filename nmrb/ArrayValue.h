@@ -32,7 +32,7 @@ namespace nmrb {
       mrb_value val = mrb_ary_ref(mrb->ptr, *value, index);
       return Value::ToCliValue(mrb->ptr, val);
     }
-    array<Value^>^ ToArray(State^ mrb)
+    array<Value^>^ ToArray(State^ mrb) override
     {
       List<Value^>^ list = gcnew List<Value^>();
       for (int i = 0; i < this->Count(mrb); i++) {

@@ -7,6 +7,7 @@
 #include "FloatValue.h"
 #include "StringValue.h"
 #include "ArrayValue.h"
+#include "HashValue.h"
 
 namespace nmrb {
 
@@ -45,6 +46,16 @@ namespace nmrb {
     return mrb_nil_p(*value);
   }
 
+  Boolean Value::IsTrue()
+  {
+    return mrb_type(*value) == MRB_TT_TRUE;
+  }
+
+  Boolean Value::IsFalse()
+  {
+    return mrb_type(*value) == MRB_TT_FALSE;
+  }
+
   Boolean Value::IsSymbol()
   {
     return mrb_symbol_p(*value);
@@ -80,35 +91,70 @@ namespace nmrb {
     return mrb_bool(*value);
   }
 
+  Int32 Value::ToInteger()
+  {
+    return mrb_fixnum(*value);
+  }
+
+  Double Value::ToDouble()
+  {
+    return mrb_float(*value);
+  }
+
   String^ Value::ToString(State^ mrb)
   {
-    System::Text::UTF8Encoding^ e = gcnew System::Text::UTF8Encoding(false);
-    if (mrb_string_p(*value)) {
-      return e->GetString((unsigned char*)RSTRING_PTR(*value), mrb_string_value_len(mrb->ptr, *value));
+    if (this->IsString()) {
+      return safe_cast<StringValue^>(this)->ToString(mrb);
     }
-    else {
-      mrb_value res = mrb_funcall(mrb->ptr, *value, "to_s", 0);
-      return e->GetString((unsigned char*)RSTRING_PTR(res), mrb_string_value_len(mrb->ptr, res));
+    return (gcnew StringValue(mrb->ptr, mrb_funcall(mrb->ptr, *value, "to_s", 0)))->ToString(mrb);
+  }
+
+  array<Value^>^ Value::ToArray(State^ mrb)
+  {
+    if (!this->IsArray()) {
+      return array<Value^>::Empty<Value^>();
     }
+    return safe_cast<ArrayValue^>(this)->ToArray(mrb);
   }
 
   Dictionary<Value^, Value^>^ Value::ToDictionary(State^ mrb)
   {
-    khash_t(ht) *h = RHASH_TBL(*value);
-    if (!h) {
+    if (!this->IsHash()) {
       return gcnew Dictionary<Value^, Value^>();
     }
-    khiter_t k;
-    Dictionary<Value^,Value^>^ res = gcnew Dictionary<Value^, Value^>();
-    for (k = kh_begin(h); k != kh_end(h); k++) {
-      if (kh_exist(h, k)) {
-        mrb_value key = kh_key(h, k);
-        mrb_value val = kh_value(h, k).v;
-        res->Add(gcnew Value(key), gcnew Value(val));
-      }
-    }
-    return res;
+    return safe_cast<HashValue^>(this)->ToDictionary(mrb);
   }
+
+#if 0
+  Value^ Value::ToCliValue(State^ mrb, Object^ obj)
+  {
+    if (obj == nullptr) {
+      return gcnew NilValue();
+    }
+    else if (obj->GetType() == String::typeid) {
+      String^ s = safe_cast<String^>(obj);
+      if (s->Length == 0) {
+        return gcnew StringValue(mrb->ptr, "");
+      }
+      if (s[0] == ':') {
+        return gcnew SymbolValue(mrb, s->Substring(1));
+      }
+      return gcnew StringValue(mrb, s);
+    }
+    else if (obj->GetType() == Boolean::typeid) {
+      if (safe_cast<Boolean>(obj) == true) {
+        return gcnew TrueValue();
+      }
+      return gcnew FalseValue();
+    }
+    else if (obj->GetType() == Int32::typeid) {
+      return gcnew FixnumValue(safe_cast<Int32>(obj));
+    }
+    else if (obj->GetType() == Double::typeid) {
+      return gcnew FloatValue(mrb, safe_cast<Double>(obj));
+    }
+  }
+#endif
 
   Value^ Value::ToCliValue(mrb_state* mrb, mrb_value val)
   {
@@ -134,12 +180,10 @@ namespace nmrb {
       return gcnew StringValue(mrb, mrb_string_value_cstr(mrb, &val));
     }
     else if (mrb_array_p(val)) {
-      ArrayValue^ ary = gcnew ArrayValue(mrb);
-      for (int i = 0; i < mrb_ary_len(mrb, val); i++) {
-        mrb_value item = mrb_ary_ref(mrb, val, i);
-        ary->Add(gcnew State(mrb), Value::ToCliValue(mrb, item));
-      }
-      return ary;
+      return gcnew ArrayValue(mrb, val);
+    }
+    else if (mrb_hash_p(val)) {
+      return gcnew HashValue(mrb, val);
     }
     return gcnew Value(val);
   }

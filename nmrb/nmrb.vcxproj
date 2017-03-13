@@ -107,6 +107,7 @@
     <ClInclude Include="FalseValue.h" />
     <ClInclude Include="FixnumValue.h" />
     <ClInclude Include="FloatValue.h" />
+    <ClInclude Include="HashValue.h" />
     <ClInclude Include="NilValue.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StringValue.h" />
