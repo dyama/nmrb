@@ -53,3 +53,4 @@
 *.tlog
 *.pdb
 *.cache
+/nmrb/obj

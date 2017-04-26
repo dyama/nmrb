@@ -23,7 +23,8 @@ namespace nmrb
     }
     catch (Exception^ ex) {
       char* utf8 = clistr_to_utf8(ex->Message);
-      mrb_raisef(mrb, E_RUNTIME_ERROR, "Raise in CLI method: %s", utf8);
+      auto s = mrb_str_new_cstr(mrb, utf8);
+      mrb_raisef(mrb, E_RUNTIME_ERROR, "Raise in CLI method: %S", s);
       mrb_utf8_free(utf8); // okay?
     }
     return mrb_nil_value();
