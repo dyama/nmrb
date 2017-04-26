@@ -13,12 +13,14 @@ namespace nmrb_test
     {
       using (var mrb = new State()) {
 
-        // mrb.DefineCliMethod("hoge", (args) => {
-        //   throw new Exception("foobarbaz");
-        //   return new NilValue();
-        // });
-        // var oo = mrb.Do("hoge");
-        // var ooo = oo.ToString(mrb);
+#if false
+        mrb.DefineCliMethod("hoge", (args) => {
+          throw new Exception("foobarbaz");
+          return new NilValue();
+        });
+        var oo = mrb.Do("hoge");
+        var ooo = oo.ToString(mrb);
+#endif
 
         mrb.Do("c=123");
 
