@@ -19,6 +19,7 @@ namespace nmrb {
   public:
     String^ ToString(State^ mrb) override
     {
+#if 0
       System::Text::UTF8Encoding^ e = gcnew System::Text::UTF8Encoding(false);
       if (mrb_string_p(*value)) {
         return e->GetString((unsigned char*)RSTRING_PTR(*value), mrb_string_value_len(mrb->ptr, *value));
@@ -27,6 +28,15 @@ namespace nmrb {
         mrb_value res = mrb_funcall(mrb->ptr, *value, "to_s", 0);
         return e->GetString((unsigned char*)RSTRING_PTR(res), mrb_string_value_len(mrb->ptr, res));
       }
+#else
+      if (mrb_string_p(*value)) {
+        return gcnew String((char*)RSTRING_PTR(*value));
+      }
+      else {
+        mrb_value res = mrb_funcall(mrb->ptr, *value, "to_s", 0);
+        return gcnew String((char*)RSTRING_PTR(res));
+      }
+#endif
     }
   internal:
     StringValue(mrb_state* mrb, const char* s) : Value()
