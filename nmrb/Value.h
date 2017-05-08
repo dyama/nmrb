@@ -40,6 +40,11 @@ namespace nmrb {
     Boolean IsString();
     Boolean IsArray();
     Boolean IsHash();
+    Boolean IsClass();
+    Boolean IsModule();
+    Boolean IsException();
+    Boolean IsProc();
+    Boolean IsRange();
     Boolean ToBoolean();
     Int32 ToInteger();
     Double ToDouble();

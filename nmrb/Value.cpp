@@ -86,6 +86,31 @@ namespace nmrb {
     return mrb_hash_p(*value);
   }
 
+  Boolean Value::IsClass()
+  {
+    return mrb_type(*value) == MRB_TT_CLASS;
+  }
+
+  Boolean Value::IsModule()
+  {
+    return mrb_type(*value) == MRB_TT_MODULE;
+  }
+
+  Boolean Value::IsException()
+  {
+    return mrb_type(*value) == MRB_TT_EXCEPTION;
+  }
+
+  Boolean Value::IsProc()
+  {
+    return mrb_type(*value) == MRB_TT_PROC;
+  }
+
+  Boolean Value::IsRange()
+  {
+    return mrb_type(*value) == MRB_TT_RANGE;
+  }
+
   Boolean Value::ToBoolean()
   {
     return mrb_bool(*value);

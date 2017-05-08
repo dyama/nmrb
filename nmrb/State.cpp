@@ -120,7 +120,6 @@ namespace nmrb {
   {
     char* utf8 = clistr_to_utf8(name);
     if (utf8) {
-      RObject* pobj = mrb_obj_ptr(mrb_obj_value(mrb->kernel_module));
       mrb_define_method(mrb, mrb->kernel_module, utf8, _cli, MRB_ARGS_NONE());
       if (!CliMethods) {
         CliMethods = gcnew Dictionary<String^, FuncType^>();
