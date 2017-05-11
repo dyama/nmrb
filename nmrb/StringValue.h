@@ -19,7 +19,7 @@ namespace nmrb {
   public:
     String^ ToString(State^ mrb) override
     {
-#if 0
+#if 1
       System::Text::UTF8Encoding^ e = gcnew System::Text::UTF8Encoding(false);
       if (mrb_string_p(*value)) {
         return e->GetString((unsigned char*)RSTRING_PTR(*value), mrb_string_value_len(mrb->ptr, *value));
