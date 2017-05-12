@@ -20,8 +20,6 @@ namespace nmrb {
     property mrb_state* ptr { mrb_state* get() { return mrb; } }
 
   public:
-    String^ LastErrorMessage;
-    Boolean HasError;
     property Value^ default[String^]
     {
       Value^ get(String^ key)

@@ -6,8 +6,6 @@ namespace nmrb {
 
   State::State()
   {
-    LastErrorMessage = String::Empty;
-    HasError = false;
     mrb = mrb_open();
     cxt = mrbc_context_new(mrb);
     cxt->capture_errors = TRUE;
@@ -18,8 +16,6 @@ namespace nmrb {
 
   State::State(mrb_state* src)
   {
-    LastErrorMessage = String::Empty;
-    HasError = false;
     mrb = src;
   }
 
@@ -51,6 +47,8 @@ namespace nmrb {
     if (!utf8) {
       abort();
     }
+    bool has_err = false;
+    String^ err_msg = nullptr;
     parser = mrb_parser_new(mrb);
     try {
       if (parser == NULL) {
@@ -88,25 +86,28 @@ namespace nmrb {
       if (mrb_exception_p(result)) {
         mrb_value mstr = mrb_funcall(mrb, result, "to_s", 0);
         const char* cstr = mrb_string_value_cstr(mrb, &mstr);
-        LastErrorMessage = 
-        String::Format("{0}:{1} {2}", gcnew String(parser->filename), parser->lineno, gcnew String(cstr));
-        HasError = true;
+        err_msg = String::Format("{0}:{1} {2}", gcnew String(parser->filename), parser->lineno, gcnew String(cstr));
+        has_err = true;
       }
       else {
-        LastErrorMessage = String::Empty;
-        HasError = false;
+        has_err = false;
       }
     }
     catch (Exception^ ex) {
-      LastErrorMessage = ex->Message;
-      HasError = true;
+      err_msg = ex->Message;
+      has_err = true;
     }
     finally {
       mrb_gc_arena_restore(mrb, ai);
       mrb_parser_free(parser);
       cxt->lineno++;
     }
-    return Value::ToCliValue(ptr, result);
+    if (has_err) {
+      throw gcnew System::Exception(err_msg);
+    }
+    else {
+      return Value::ToCliValue(ptr, result);
+    }
   }
 
   Value^ State::DoFile(String^ path)
