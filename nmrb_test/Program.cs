@@ -61,7 +61,7 @@ namespace nmrb_test
         });
 
         // Call C# function from ruby
-        mrb.Do("csfunc 'こんにちは！' * 3");
+        mrb.Do("csfunc 'こんにちは！ﾊﾝｶｸｶﾅ' * 3");
 
         // funcall
         mrb.Do(@"

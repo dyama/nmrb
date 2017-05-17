@@ -113,7 +113,7 @@ namespace nmrb {
   Value^ State::DoFile(String^ path)
   {
     Value^ res = gcnew Value(mrb_nil_value());
-    Do(IO::File::ReadAllText(path));
+    Do(IO::File::ReadAllText(path, gcnew System::Text::UTF8Encoding(false)));
     return res;
   }
 
